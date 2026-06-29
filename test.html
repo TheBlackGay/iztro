@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iztro 紫微斗数排盘测试</title>
+<script src="./dist/iztro.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f5f5f5; color: #333; padding: 20px; }
+h1 { text-align: center; margin-bottom: 24px; font-size: 22px; }
+.container { max-width: 1200px; margin: 0 auto; }
+.panel { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-size: 13px; color: #666; }
+.field input, .field select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; min-width: 140px; }
+.field input:focus, .field select:focus { outline: none; border-color: #4a90d9; }
+button { padding: 8px 24px; background: #4a90d9; color: #fff; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; }
+button:hover { background: #357abd; }
+button.secondary { background: #666; }
+button.secondary:hover { background: #555; }
+.lang-btn { padding: 4px 10px; font-size: 12px; background: #e0e0e0; color: #333; border-radius: 4px; }
+.lang-btn.active { background: #4a90d9; color: #fff; }
+.lang-group { display: flex; gap: 4px; margin-top: 8px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 12px; }
+.palace-card { background: #fafafa; border: 1px solid #eee; border-radius: 6px; padding: 12px; }
+.palace-card .name { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: #4a90d9; }
+.palace-card .meta { font-size: 12px; color: #888; margin-bottom: 6px; }
+.palace-card .stars { font-size: 13px; line-height: 1.6; }
+.palace-card .stars .major { color: #c0392b; }
+.palace-card .stars .soft { color: #27ae60; }
+.palace-card .stars .tough { color: #e67e22; }
+.palace-card .stars .adj { color: #7f8c8d; }
+pre { background: #f8f8f8; border: 1px solid #ddd; border-radius: 6px; padding: 12px; font-size: 12px; overflow-x: auto; max-height: 400px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+td, th { padding: 6px 10px; border: 1px solid #eee; text-align: left; }
+th { background: #f0f0f0; font-weight: 600; }
+#error { color: #e74c3c; padding: 8px 0; }
+#rawData { margin-top: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>iztro 紫微斗数排盘 · 交互测试</h1>
+
+  <div class="panel">
+    <div class="row">
+      <div class="field">
+        <label>日期类型</label>
+        <select id="dateType"><option value="solar">阳历</option><option value="lunar">农历</option></select>
+      </div>
+      <div class="field">
+        <label>日期 (YYYY-M-D)</label>
+        <input id="dateStr" value="2000-8-16" placeholder="例: 2000-8-16">
+      </div>
+      <div class="field">
+        <label>时辰</label>
+        <select id="timeIndex">
+          <option value="0">早子时 00:00~01:00</option>
+          <option value="1">丑时 01:00~03:00</option>
+          <option value="2" selected>寅时 03:00~05:00</option>
+          <option value="3">卯时 05:00~07:00</option>
+          <option value="4">辰时 07:00~09:00</option>
+          <option value="5">巳时 09:00~11:00</option>
+          <option value="6">午时 11:00~13:00</option>
+          <option value="7">未时 13:00~15:00</option>
+          <option value="8">申时 15:00~17:00</option>
+          <option value="9">酉时 17:00~19:00</option>
+          <option value="10">戌时 19:00~21:00</option>
+          <option value="11">亥时 21:00~23:00</option>
+          <option value="12">晚子时 23:00~00:00</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>性别</label>
+        <select id="gender"><option value="男">男</option><option value="女">女</option></select>
+      </div>
+      <div class="field">
+        <label>闰月修正</label>
+        <select id="fixLeap"><option value="true">是</option><option value="false">否</option></select>
+      </div>
+      <div class="field">
+        <label>算法流派</label>
+        <select id="algorithm">
+          <option value="default">全书派 (default)</option>
+          <option value="zhongzhou">中州派</option>
+        </select>
+      </div>
+    </div>
+    <div class="row" style="margin-top:12px;">
+      <div class="field">
+        <label>星盘类型 (中州派)</label>
+        <select id="astroType">
+          <option value="heaven">天盘</option>
+          <option value="earth">地盘</option>
+          <option value="human">人盘</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>语言</label>
+        <div class="lang-group" id="langGroup">
+          <button class="lang-btn active" data-lang="zh-CN">中文</button>
+          <button class="lang-btn" data-lang="zh-TW">繁体</button>
+          <button class="lang-btn" data-lang="en-US">English</button>
+          <button class="lang-btn" data-lang="ja-JP">日本語</button>
+          <button class="lang-btn" data-lang="ko-KR">한국어</button>
+          <button class="lang-btn" data-lang="vi-VN">Tiếng Việt</button>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:12px;">
+      <button id="btnCalc">排盘</button>
+      <button id="btnLunar" class="secondary">用农历排盘</button>
+      <button id="btnRaw">查看原始 JSON</button>
+      <label style="margin-left:12px;font-size:13px;">
+        <input type="checkbox" id="chkHoroscope"> 包含运限 (流年2025)
+      </label>
+    </div>
+    <div id="error"></div>
+  </div>
+
+  <div id="result" style="display:none;">
+    <div class="panel">
+      <h2 style="font-size:16px;margin-bottom:10px;">📋 基本信息</h2>
+      <table><tbody id="basicInfo"></tbody></table>
+    </div>
+
+    <div class="panel">
+      <h2 style="font-size:16px;margin-bottom:10px;">🏛️ 十二宫</h2>
+      <div class="grid-3" id="palacesGrid"></div>
+    </div>
+
+    <div class="panel" id="horoscopePanel" style="display:none;">
+      <h2 style="font-size:16px;margin-bottom:10px;">⏳ 运限 (流年2025)</h2>
+      <div id="horoscopeContent"></div>
+    </div>
+
+    <div class="panel" id="rawPanel" style="display:none;">
+      <h2 style="font-size:16px;margin-bottom:10px;">🔧 原始数据</h2>
+      <pre id="rawData"></pre>
+    </div>
+
+    <div class="panel">
+      <h2 style="font-size:16px;margin-bottom:10px;">🔍 分析测试</h2>
+      <div id="analysisTest"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentLang = 'zh-CN';
+
+document.getElementById('langGroup').addEventListener('click', e => {
+  const btn = e.target.closest('.lang-btn');
+  if (!btn) return;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentLang = btn.dataset.lang;
+});
+
+function getOpts() {
+  return {
+    type: document.getElementById('dateType').value,
+    dateStr: document.getElementById('dateStr').value.trim(),
+    timeIndex: parseInt(document.getElementById('timeIndex').value),
+    gender: document.getElementById('gender').value,
+    fixLeap: document.getElementById('fixLeap').value === 'true',
+    language: currentLang,
+    config: {
+      algorithm: document.getElementById('algorithm').value,
+    },
+    astroType: document.getElementById('astroType').value,
+  };
+}
+
+function renderAstrolabe(astrolabe) {
+  document.getElementById('result').style.display = 'block';
+
+  // 基本信息
+  const basic = [
+    ['阳历日期', astrolabe.solarDate],
+    ['农历日期', astrolabe.lunarDate],
+    ['四柱干支', astrolabe.chineseDate],
+    ['时辰', astrolabe.time],
+    ['时间段', astrolabe.timeRange],
+    ['生肖', astrolabe.zodiac],
+    ['星座', astrolabe.sign],
+    ['命宫地支', astrolabe.earthlyBranchOfSoulPalace],
+    ['身宫地支', astrolabe.earthlyBranchOfBodyPalace],
+    ['命主', astrolabe.soul],
+    ['身主', astrolabe.body],
+    ['五行局', astrolabe.fiveElementsClass],
+  ];
+  document.getElementById('basicInfo').innerHTML = basic.map(([k,v]) =>
+    `<tr><td style="width:100px;font-weight:600;">${k}</td><td>${v}</td></tr>`
+  ).join('');
+
+  // 十二宫
+  const palaces = astrolabe.palaces;
+  const grid = document.getElementById('palacesGrid');
+  grid.innerHTML = palaces.map(p => {
+    const allStars = [...(p.majorStars||[]), ...(p.minorStars||[]), ...(p.adjectiveStars||[])];
+    const starHtml = allStars.map(s => {
+      const cls = s.type === 'major' ? 'major' : (s.type === 'soft' ? 'soft' : (s.type === 'tough' ? 'tough' : 'adj'));
+      let info = s.name;
+      if (s.brightness) info += ` (${s.brightness})`;
+      if (s.mutagen) info += ` [${s.mutagen}]`;
+      return `<span class="${cls}">${info}</span>`;
+    }).join('、 ') || '<span style="color:#bbb">—</span>';
+
+    const extras = [];
+    if (p.changsheng12) extras.push(`长生:${p.changsheng12}`);
+    if (p.boshi12) extras.push(`博士:${p.boshi12}`);
+    if (p.jiangqian12) extras.push(`将前:${p.jiangqian12}`);
+    if (p.suiqian12) extras.push(`岁前:${p.suiqian12}`);
+    if (p.decadal) extras.push(`大限:${p.decadal.range[0]}-${p.decadal.range[1]}岁`);
+
+    return `<div class="palace-card">
+      <div class="name">${p.name}${p.isBodyPalace ? ' (身宫)' : ''}${p.isOriginalPalace ? ' (来因)' : ''}</div>
+      <div class="meta">${p.heavenlyStem}${p.earthlyBranch} · ${p.index !== undefined ? '索引:'+p.index : ''}</div>
+      <div class="stars">${starHtml}</div>
+      <div style="font-size:11px;color:#999;margin-top:4px;">${extras.join(' · ')}</div>
+    </div>`;
+  }).join('');
+
+  // 分析测试
+  const analysis = [];
+  try {
+    const soulPalace = astrolabe.palace('命宫');
+    if (soulPalace) {
+      analysis.push(`✅ palace('命宫') → ${soulPalace.name} (${soulPalace.heavenlyStem}${soulPalace.earthlyBranch})`);
+      const hasTest = soulPalace.has(['紫微']) ? '✅' : '❌';
+      analysis.push(`${hasTest} palace('命宫').has(['紫微'])`);
+      analysis.push(`✅ palace('命宫').isEmpty() → ${soulPalace.isEmpty()}`);
+    }
+  } catch(e) { analysis.push(`❌ 命宫查询错误: ${e.message}`); }
+
+  try {
+    const star = astrolabe.star('紫微');
+    if (star) {
+      const sp = star.surroundedPalaces();
+      analysis.push(`✅ star('紫微') 所在宫位: ${star.palace()?.name}`);
+      if (sp) {
+        const sides = [sp.target?.name, sp.opposite?.name, sp.wealth?.name, sp.career?.name].filter(Boolean).join(', ');
+        analysis.push(`✅ 紫微三方四正: ${sides}`);
+      }
+    }
+  } catch(e) { analysis.push(`❌ 紫微查询错误: ${e.message}`); }
+
+  try {
+    const sp = astrolabe.surroundedPalaces('命宫');
+    if (sp) {
+      const sides = [sp.target?.name, sp.opposite?.name, sp.wealth?.name, sp.career?.name].filter(Boolean).join(', ');
+      analysis.push(`✅ 命宫三方四正: ${sides}`);
+    }
+  } catch(e) { analysis.push(`❌ 三方四正错误: ${e.message}`); }
+
+  document.getElementById('analysisTest').innerHTML = analysis.map(a =>
+    `<div style="padding:2px 0;font-size:13px;font-family:monospace;">${a}</div>`
+  ).join('');
+
+  // 运限
+  const chkHoro = document.getElementById('chkHoroscope').checked;
+  document.getElementById('horoscopePanel').style.display = chkHoro ? 'block' : 'none';
+  if (chkHoro) {
+    try {
+      const horoscope = astrolabe.horoscope('2025-6-1', parseInt(document.getElementById('timeIndex').value));
+      document.getElementById('horoscopeContent').innerHTML = renderHoroscope(horoscope);
+    } catch(e) {
+      document.getElementById('horoscopeContent').innerHTML = `<span style="color:red">运限错误: ${e.message}</span>`;
+    }
+  }
+}
+
+function renderHoroscope(h) {
+  const scopes = [
+    { key: 'decadal', label: '大限' },
+    { key: 'yearly', label: '流年' },
+    { key: 'monthly', label: '流月' },
+    { key: 'daily', label: '流日' },
+    { key: 'hourly', label: '流时' },
+  ];
+  return scopes.map(s => {
+    const item = h[s.key];
+    if (!item) return '';
+    return `<div style="margin-bottom:10px;">
+      <strong>${s.label}:</strong> 宫位索引 ${item.index} · 天干 ${item.heavenlyStem} · 地支 ${item.earthlyBranch}
+      ${item.nominalAge ? `· 虚岁 ${item.nominalAge}` : ''}
+      ${item.stars ? '· 流耀: ' + item.stars.map((arr,i) =>
+        arr.map(s => s.name).join(',')
+      ).filter(Boolean).join(' | ') : ''}
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('btnCalc').addEventListener('click', () => {
+  const opts = getOpts();
+  try {
+    astrolabe = iztro.astro.bySolar(opts.dateStr, opts.timeIndex, opts.gender, opts.fixLeap, opts.language);
+    if (opts.config.algorithm !== 'default' || opts.astroType !== 'heaven') {
+      astrolabe = iztro.astro.withOptions({
+        ...opts,
+        type: 'solar',
+        config: { algorithm: opts.config.algorithm },
+        astroType: opts.astroType,
+      });
+    }
+    renderAstrolabe(astrolabe);
+    document.getElementById('error').textContent = '';
+    document.getElementById('rawPanel').style.display = 'none';
+  } catch(e) {
+    document.getElementById('error').textContent = '❌ 错误: ' + e.message;
+  }
+});
+
+document.getElementById('btnLunar').addEventListener('click', () => {
+  const opts = getOpts();
+  try {
+    astrolabe = iztro.astro.byLunar(opts.dateStr, opts.timeIndex, opts.gender, opts.fixLeap, opts.language);
+    if (opts.config.algorithm !== 'default' || opts.astroType !== 'heaven') {
+      astrolabe = iztro.astro.withOptions({
+        ...opts,
+        type: 'lunar',
+        config: { algorithm: opts.config.algorithm },
+        astroType: opts.astroType,
+      });
+    }
+    renderAstrolabe(astrolabe);
+    document.getElementById('error').textContent = '';
+    document.getElementById('rawPanel').style.display = 'none';
+  } catch(e) {
+    document.getElementById('error').textContent = '❌ 错误: ' + e.message;
+  }
+});
+
+document.getElementById('btnRaw').addEventListener('click', () => {
+  if (!astrolabe) { document.getElementById('error').textContent = '请先排盘'; return; }
+  const panel = document.getElementById('rawPanel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  document.getElementById('rawData').textContent = JSON.stringify(astrolabe, (k,v) => k==='astrolabe' ? undefined : v, 2);
+});
+
+// 默认自动排盘
+let astrolabe;
+document.getElementById('btnCalc').click();
+</script>
+</body>
+</html>

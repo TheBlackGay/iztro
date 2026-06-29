@@ -79,22 +79,116 @@ export const STARS_INFO = {
     fiveElements: '水',
     yinYang: '',
   },
-  wenchangMin: {
-    brightness: ['xian', 'li', 'de', 'miao', 'xian', 'li', 'de', 'miao', 'xian', 'li', 'de', 'miao'],
+  // wenchangMin: {
+  //   brightness: ['xian', 'li', 'de', 'miao', 'xian', 'li', 'de', 'miao', 'xian', 'li', 'de', 'miao'],
+  // },
+  // wenquMin: {
+  //   brightness: ['ping', 'wang', 'de', 'miao', 'xian', 'wang', 'de', 'miao', 'xian', 'wang', 'de', 'miao'],
+  // },
+  // huoxingMin: {
+  //   brightness: ['miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de'],
+  // },
+  // lingxingMin: {
+  //   brightness: ['miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de'],
+  // },
+  // qingyangMin: {
+  //   brightness: ['', 'xian', 'miao', '', 'xian', 'miao', '', 'xian', 'miao', '', 'xian', 'miao'],
+  // },
+  // tuoluoMin: {
+  //   brightness: ['xian', '', 'miao', 'xian', '', 'miao', 'xian', '', 'miao', 'xian', '', 'miao'],
+  // },
+  wenchangMin: { brightness: ['xian', 'li', 'de', 'miao', 'xian', 'li', 'de', 'miao', 'xian', 'li', 'de', 'miao'] },
+  wenquMin: { brightness: ['ping', 'wang', 'de', 'miao', 'xian', 'wang', 'de', 'miao', 'xian', 'wang', 'de', 'miao'] },
+  huoxingMin: { brightness: ['miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de'] },
+  lingxingMin: { brightness: ['miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de'] },
+  qingyangMin: { brightness: ['', 'xian', 'miao', '', 'xian', 'miao', '', 'xian', 'miao', '', 'xian', 'miao'] },
+  tuoluoMin: { brightness: ['xian', '', 'miao', 'xian', '', 'miao', 'xian', '', 'miao', 'xian', '', 'miao'] },
+  zuofuMin: {
+    brightness: ['miao', 'xian', 'miao', 'ping', 'wang', 'miao', 'ping', 'xian', 'miao', 'bu', 'de', 'miao'],
   },
-  wenquMin: {
-    brightness: ['ping', 'wang', 'de', 'miao', 'xian', 'wang', 'de', 'miao', 'xian', 'wang', 'de', 'miao'],
+  youbiMin: {
+    brightness: ['wang', 'xian', 'miao', 'ping', 'wang', 'miao', 'bu', 'xian', 'miao', 'ping', 'miao', 'miao'],
   },
-  huoxingMin: {
-    brightness: ['miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de'],
+  tiankuiMin: { brightness: ['', 'miao', '', '', '', '', '', '', '', 'wang', 'wang', 'wang'] },
+  tianyueMin: { brightness: ['', '', '', 'wang', '', 'wang', 'miao', 'miao', '', '', '', ''] },
+  dikongMin: {
+    brightness: ['xian', 'ping', 'xian', 'miao', 'miao', 'ping', 'miao', 'miao', 'xian', 'xian', 'ping', 'xian'],
   },
-  lingxingMin: {
-    brightness: ['miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de', 'miao', 'li', 'xian', 'de'],
+  dijieMin: { brightness: ['ping', 'ping', 'xian', 'bu', 'miao', 'ping', 'miao', 'ping', 'ping', '', 'xian', 'xian'] },
+  tianmaMin: { brightness: ['wang', '', '', 'ping', '', '', 'wang', '', '', 'ping', '', ''] },
+  lucunMin: { brightness: ['miao', 'miao', '', 'miao', 'miao', '', 'miao', 'miao', '', 'miao', 'miao', ''] },
+  guchen: { brightness: ['ping', '', '', 'xian', '', '', 'ping', '', '', 'xian', '', ''] },
+  guasu: { brightness: ['', '', 'xian', '', '', 'bu', '', '', 'xian', '', '', 'ping'] },
+  tianxing: {
+    brightness: ['miao', 'miao', 'ping', 'xian', 'ping', 'xian', 'xian', 'miao', 'miao', 'xian', 'ping', 'xian'],
   },
-  qingyangMin: {
-    brightness: ['', 'xian', 'miao', '', 'xian', 'miao', '', 'xian', 'miao', '', 'xian', 'miao'],
+  tianyao: {
+    brightness: ['wang', 'miao', 'xian', 'ping', 'ping', 'wang', 'xian', 'miao', 'miao', 'xian', 'xian', 'ping'],
   },
-  tuoluoMin: {
-    brightness: ['xian', '', 'miao', 'xian', '', 'miao', 'xian', '', 'miao', 'xian', '', 'miao'],
+  engguang: {
+    brightness: ['ping', 'miao', 'miao', 'ping', 'miao', 'wang', 'ping', 'xian', 'miao', 'bu', 'ping', 'miao'],
   },
+  tiangui: {
+    brightness: ['ping', 'wang', 'wang', 'ping', 'miao', 'wang', 'xian', 'miao', 'wang', 'ping', 'miao', 'wang'],
+  },
+  posui: { brightness: ['', '', '', 'xian', '', '', '', 'ping', '', '', '', 'xian'] },
+  feilian: { brightness: ['', '', '', '', '', '', '', '', '', '', '', ''] },
+  hongluan: {
+    brightness: ['wang', 'miao', 'miao', 'wang', 'wang', 'xian', 'miao', 'wang', 'xian', 'miao', 'miao', 'xian'],
+  },
+  tianxi: {
+    brightness: ['miao', 'wang', 'xian', 'miao', 'miao', 'xian', 'wang', 'miao', 'xian', 'wang', 'wang', 'xian'],
+  },
+  longchi: {
+    brightness: ['ping', 'miao', 'miao', 'xian', 'bu', 'miao', 'ping', 'miao', 'xian', 'wang', 'wang', 'ping'],
+  },
+  fengge: {
+    brightness: ['miao', 'wang', 'xian', 'miao', 'ping', 'xian', 'bu', 'miao', 'miao', 'wang', 'miao', 'ping'],
+  },
+  tianshang: {
+    brightness: ['ping', 'xian', 'ping', 'ping', 'xian', 'xian', 'ping', 'ping', 'ping', 'wang', 'xian', 'ping'],
+  },
+  tianshi: {
+    brightness: ['ping', 'ping', 'xian', 'ping', 'ping', 'ping', 'ping', 'xian', 'xian', 'wang', 'xian', 'xian'],
+  },
+  santai: {
+    brightness: ['ping', 'xian', 'miao', 'ping', 'wang', 'miao', 'wang', 'miao', 'wang', 'ping', 'ping', 'miao'],
+  },
+  bazuo: {
+    brightness: ['miao', 'ping', 'wang', 'miao', 'wang', 'ping', 'miao', 'miao', 'ping', 'miao', 'xian', 'miao'],
+  },
+  tianguan: { brightness: ['ping', 'wang', 'wang', 'wang', 'miao', 'miao', '', 'ping', 'ping', 'wang', '', ''] },
+  tianfu: { brightness: ['wang', 'ping', '', 'wang', 'ping', '', 'miao', 'miao', '', 'miao', 'ping', ''] },
+  tianku: { brightness: ['ping', 'miao', 'ping', 'bu', 'xian', 'ping', 'miao', 'bu', 'ping', 'ping', 'ping', 'miao'] },
+  tianxu: {
+    brightness: ['wang', 'miao', 'xian', 'wang', 'ping', 'xian', 'miao', 'wang', 'xian', 'ping', 'xian', 'miao'],
+  },
+  tiancai: {
+    brightness: ['miao', 'wang', 'xian', 'miao', 'wang', 'ping', 'miao', 'wang', 'xian', 'miao', 'wang', 'ping'],
+  },
+  tianshou: {
+    brightness: ['wang', 'xian', 'miao', 'ping', 'ping', 'wang', 'wang', 'ping', 'miao', 'wang', 'ping', 'miao'],
+  },
+  taifu: { brightness: ['', '', '', '', '', '', '', '', '', '', '', ''] },
+  fenggao: { brightness: ['', '', '', '', '', '', '', '', '', '', '', ''] },
+  xianchi: { brightness: ['', 'ping', '', '', 'xian', '', '', 'ping', '', '', 'xian', ''] },
+  tianchu: { brightness: ['', '', '', '', '', '', '', '', '', '', '', ''] },
+  huagai: { brightness: ['', '', 'miao', '', '', 'xian', '', '', 'ping', '', '', 'xian'] },
+  yinsha: { brightness: ['', '', '', '', '', '', '', '', '', '', '', ''] },
+  jieshen: { brightness: ['miao', '', 'miao', '', 'miao', '', 'bu', '', 'miao', '', 'miao', ''] },
+  tiande: {
+    brightness: ['ping', 'ping', 'miao', 'wang', 'wang', 'miao', 'ping', 'bu', 'miao', 'ping', 'miao', 'miao'],
+  },
+  yuede: { brightness: ['', '', '', '', '', '', '', '', '', '', '', ''] },
+  tianyue: { brightness: ['', '', '', '', '', '', '', '', '', '', '', ''] },
+  tianwu: { brightness: ['', '', '', '', '', '', '', '', '', '', '', ''] },
+  tiankong: {
+    brightness: ['xian', 'ping', 'miao', 'miao', 'miao', 'xian', 'wang', 'wang', 'xian', 'ping', 'xian', 'ping'],
+  },
+  xunkong: { brightness: ['', '', '', '', '', '', 'miao', 'miao', 'xian', 'ping', '', ''] },
+  jiekong: { brightness: ['xian', 'ping', 'xian', 'miao', 'miao', 'miao', 'miao', 'miao', '', '', 'xian', 'bu'] },
+  longde: { brightness: ['', '', '', '', '', '', '', '', '', '', '', ''] },
+  dahao: { brightness: ['xian', 'bu', 'ping', 'xian', 'wang', 'ping', 'xian', 'bu', 'ping', 'xian', 'wang', 'ping'] },
+  jiesha: { brightness: ['', '', '', '', '', '', '', '', '', '', '', ''] },
+  nianjie: { brightness: ['miao', 'miao', 'miao', 'wang', 'miao', 'de', 'li', 'wang', 'miao', 'de', 'miao', 'de'] },
 } as const;
