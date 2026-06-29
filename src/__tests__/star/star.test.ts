@@ -319,24 +319,24 @@ describe('star/index', () => {
         .getHoroscopeStar('庚', '辰', 'decadal')
         ?.map((stars) => stars.map((star) => ({ name: star.name, type: star.type, scope: star.scope }))),
     ).toStrictEqual([
-      [{ name: '运马', type: 'tianma', scope: 'decadal' }],
-      [{ name: '运曲', type: 'soft', scope: 'decadal' }],
+      [{ name: '大马', type: 'tianma', scope: 'decadal' }],
+      [{ name: '大曲', type: 'soft', scope: 'decadal' }],
       [],
-      [{ name: '运喜', type: 'flower', scope: 'decadal' }],
-      [],
-      [
-        { name: '运钺', type: 'soft', scope: 'decadal' },
-        { name: '运陀', type: 'tough', scope: 'decadal' },
-      ],
-      [{ name: '运禄', type: 'lucun', scope: 'decadal' }],
-      [{ name: '运羊', type: 'tough', scope: 'decadal' }],
+      [{ name: '大喜', type: 'flower', scope: 'decadal' }],
       [],
       [
-        { name: '运昌', type: 'soft', scope: 'decadal' },
-        { name: '运鸾', type: 'flower', scope: 'decadal' },
+        { name: '大钺', type: 'soft', scope: 'decadal' },
+        { name: '大陀', type: 'tough', scope: 'decadal' },
+      ],
+      [{ name: '大禄', type: 'lucun', scope: 'decadal' }],
+      [{ name: '大羊', type: 'tough', scope: 'decadal' }],
+      [],
+      [
+        { name: '大昌', type: 'soft', scope: 'decadal' },
+        { name: '大鸾', type: 'flower', scope: 'decadal' },
       ],
       [],
-      [{ name: '运魁', type: 'soft', scope: 'decadal' }],
+      [{ name: '大魁', type: 'soft', scope: 'decadal' }],
     ]);
   });
 
@@ -348,28 +348,28 @@ describe('star/index', () => {
     ).toStrictEqual([
       [],
       [
-        { name: '流魁', type: 'soft', scope: 'yearly' },
-        { name: '流昌', type: 'soft', scope: 'yearly' },
+        { name: '年魁', type: 'soft', scope: 'yearly' },
+        { name: '年昌', type: 'soft', scope: 'yearly' },
       ],
       [],
       [
-        { name: '流钺', type: 'soft', scope: 'yearly' },
-        { name: '流马', type: 'tianma', scope: 'yearly' },
+        { name: '年钺', type: 'soft', scope: 'yearly' },
+        { name: '年马', type: 'tianma', scope: 'yearly' },
       ],
-      [{ name: '流喜', type: 'flower', scope: 'yearly' }],
+      [{ name: '年喜', type: 'flower', scope: 'yearly' }],
       [{ name: '年解', scope: 'yearly', type: 'helper' }],
       [],
       [],
       [],
       [
-        { name: '流曲', type: 'soft', scope: 'yearly' },
-        { name: '流陀', type: 'tough', scope: 'yearly' },
+        { name: '年曲', type: 'soft', scope: 'yearly' },
+        { name: '年陀', type: 'tough', scope: 'yearly' },
       ],
       [
-        { name: '流禄', type: 'lucun', scope: 'yearly' },
-        { name: '流鸾', type: 'flower', scope: 'yearly' },
+        { name: '年禄', type: 'lucun', scope: 'yearly' },
+        { name: '年鸾', type: 'flower', scope: 'yearly' },
       ],
-      [{ name: '流羊', type: 'tough', scope: 'yearly' }],
+      [{ name: '年羊', type: 'tough', scope: 'yearly' }],
     ]);
   });
 

@@ -131,15 +131,15 @@ describe('Astrolabe', () => {
     ]);
     expect(horoscope.hourly).toHaveProperty('mutagen', ['天同', '天机', '文昌', '廉贞']);
 
-    expect(horoscope.hasHoroscopeStars('疾厄', 'decadal', ['流陀', '流曲', '运昌'])).toBe(true);
-    expect(horoscope.hasHoroscopeStars('财帛', 'yearly', ['流陀', '流曲', '运昌'])).toBe(true);
-    expect(horoscope.hasHoroscopeStars('迁移', 'monthly', ['流陀', '流曲', '运昌'])).toBe(true);
-    expect(horoscope.hasHoroscopeStars('田宅', 'daily', ['流陀', '流曲', '运昌'])).toBe(true);
-    expect(horoscope.notHaveHoroscopeStars('疾厄', 'decadal', ['流陀', '流曲', '运昌'])).toBe(false);
-    expect(horoscope.notHaveHoroscopeStars('疾厄', 'decadal', ['流陀', '流鸾', '运昌'])).toBe(false);
-    expect(horoscope.notHaveHoroscopeStars('疾厄', 'decadal', ['流喜', '流鸾', '流魁'])).toBe(true);
-    expect(horoscope.hasOneOfHoroscopeStars('疾厄', 'decadal', ['流陀', '流曲', '运昌'])).toBe(true);
-    expect(horoscope.hasOneOfHoroscopeStars('疾厄', 'decadal', ['流喜', '流鸾', '流魁'])).toBe(false);
+    expect(horoscope.hasHoroscopeStars('疾厄', 'decadal', ['年陀', '年曲', '大昌'])).toBe(true);
+    expect(horoscope.hasHoroscopeStars('财帛', 'yearly', ['年陀', '年曲', '大昌'])).toBe(true);
+    expect(horoscope.hasHoroscopeStars('迁移', 'monthly', ['年陀', '年曲', '大昌'])).toBe(true);
+    expect(horoscope.hasHoroscopeStars('田宅', 'daily', ['年陀', '年曲', '大昌'])).toBe(true);
+    expect(horoscope.notHaveHoroscopeStars('疾厄', 'decadal', ['年陀', '年曲', '大昌'])).toBe(false);
+    expect(horoscope.notHaveHoroscopeStars('疾厄', 'decadal', ['年陀', '年鸾', '大昌'])).toBe(false);
+    expect(horoscope.notHaveHoroscopeStars('疾厄', 'decadal', ['年喜', '年鸾', '年魁'])).toBe(true);
+    expect(horoscope.hasOneOfHoroscopeStars('疾厄', 'decadal', ['年陀', '年曲', '大昌'])).toBe(true);
+    expect(horoscope.hasOneOfHoroscopeStars('疾厄', 'decadal', ['年喜', '年鸾', '年魁'])).toBe(false);
     expect(horoscope.hasHoroscopeMutagen('兄弟', 'decadal', '禄')).toBe(true);
     expect(horoscope.hasHoroscopeMutagen('夫妻', 'decadal', '权')).toBe(true);
     expect(horoscope.hasHoroscopeMutagen('疾厄', 'decadal', '科')).toBe(true);

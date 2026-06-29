@@ -108,8 +108,8 @@ export const getStartIndex = (param: AstrolabeParam) => {
  *
  * 安天马（按年支），天马只会出现在四马地【寅申巳亥】
  *
- * - 寅午戍流马在申，申子辰流马在寅。
- * - 巳酉丑流马在亥，亥卯未流马在巳。
+ * - 寅午戍年马在申，申子辰年马在寅。
+ * - 巳酉丑年马在亥，亥卯未年马在巳。
  *
  * @param heavenlyStemName 天干
  * @param earthlyBranchName 地支
@@ -851,11 +851,11 @@ export const getMonthlyStarIndex = (solarDate: string, timeIndex: number, fixLea
 };
 
 /**
- * 通过 大限/流年 天干获取流昌流曲
+ * 通过 大限/流年 天干获取年昌年曲
  *
- * - 流昌起巳位	甲乙顺流去
+ * - 年昌起巳位	甲乙顺流去
  * - 不用四墓宫	日月同年岁
- * - 流曲起酉位	甲乙逆行踪
+ * - 年曲起酉位	甲乙逆行踪
  * - 亦不用四墓	年日月相同
  *
  * @param heavenlyStemName 天干
