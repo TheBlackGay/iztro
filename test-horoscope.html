@@ -6,26 +6,112 @@
   <title>iztro 紫微斗数 · 本命盘与运限流耀叠加</title>
   <script src="./dist/iztro.min.js"></script>
   <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f5f5f5; color: #333; padding: 20px; }
-      h1 { text-align: center; margin-bottom: 20px; font-size: 22px; }
-      .container { max-width: 1300px; margin: 0 auto; }
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
 
-      .panel { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-      .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
-      .field { display: flex; flex-direction: column; gap: 4px; }
-      .field label { font-size: 13px; color: #666; }
-      .field input, .field select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; min-width: 130px; }
-      .field input:focus, .field select:focus { outline: none; border-color: #4a90d9; }
-      button { padding: 8px 24px; background: #4a90d9; color: #fff; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; }
-      button:hover { background: #357abd; }
-      button.secondary { background: #666; }
-      button.secondary:hover { background: #555; }
-      button.small { padding: 4px 12px; font-size: 12px; }
-      button.scope-on { background: #e67e22; color: #fff; }
-      #error { color: #e74c3c; padding: 8px 0; }
+      body {
+          font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+          background: #f5f5f5;
+          color: #333;
+          padding: 20px;
+      }
 
-      .scope-group { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+      h1 {
+          text-align: center;
+          margin-bottom: 20px;
+          font-size: 22px;
+      }
+
+      .container {
+          max-width: 1300px;
+          margin: 0 auto;
+      }
+
+      .panel {
+          background: #fff;
+          border-radius: 8px;
+          padding: 20px;
+          margin-bottom: 20px;
+          box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+      }
+
+      .row {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          align-items: flex-end;
+      }
+
+      .field {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+      }
+
+      .field label {
+          font-size: 13px;
+          color: #666;
+      }
+
+      .field input, .field select {
+          padding: 8px 12px;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          font-size: 14px;
+          min-width: 130px;
+      }
+
+      .field input:focus, .field select:focus {
+          outline: none;
+          border-color: #4a90d9;
+      }
+
+      button {
+          padding: 8px 24px;
+          background: #4a90d9;
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+          font-size: 14px;
+          cursor: pointer;
+      }
+
+      button:hover {
+          background: #357abd;
+      }
+
+      button.secondary {
+          background: #666;
+      }
+
+      button.secondary:hover {
+          background: #555;
+      }
+
+      button.small {
+          padding: 4px 12px;
+          font-size: 12px;
+      }
+
+      button.scope-on {
+          background: #e67e22;
+          color: #fff;
+      }
+
+      #error {
+          color: #e74c3c;
+          padding: 8px 0;
+      }
+
+      .scope-group {
+          display: flex;
+          gap: 6px;
+          flex-wrap: wrap;
+          margin-top: 8px;
+      }
 
       /* 4x4 紫微斗数星盘布局 */
       .astro-grid {
@@ -38,6 +124,7 @@
           border: 1px solid #bbb;
           position: relative;
       }
+
       .palace-card {
           background: #fafafa;
           outline: 1px solid #bbb;
@@ -51,13 +138,20 @@
           gap: 1px 0;
           position: relative;
       }
-      .palace-card.empty { background: transparent; outline: none; pointer-events: none; }
+
+      .palace-card.empty {
+          background: transparent;
+          outline: none;
+          pointer-events: none;
+      }
 
       /* ---------- 三方四正连线 SVG ---------- */
       #sfzz-svg {
           position: absolute;
-          top: 0; left: 0;
-          width: 100%; height: 100%;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
           pointer-events: none;
           z-index: 10;
       }
@@ -73,6 +167,7 @@
           padding: 1px 0;
           min-height: 0;
       }
+
       .star-item {
           display: flex;
           flex-direction: column;
@@ -80,14 +175,54 @@
           line-height: 1.1;
           min-width: 14px;
       }
-      .star-item .sn { font-size: 10px; font-weight: 600; writing-mode: vertical-lr; letter-spacing: 0; }
-      .star-item .sb { font-size: 8px; color: #888; line-height: 1; margin-top: 1px; }
-      .star-item .sm { font-size: 7px; color: #fff; background: #c0392b; border-radius: 2px; padding: 0 2px; line-height: 1.3; margin-top: 1px; }
-      .major { color: #c0392b; }
-      .soft { color: #27ae60; }
-      .tough { color: #e67e22; }
-      .adj { color: #7f8c8d; }
-      .star-type-label { font-size: 7px; color: #999; writing-mode: vertical-lr; letter-spacing: 1px; margin-right: 1px; }
+
+      .star-item .sn {
+          font-size: 10px;
+          font-weight: 600;
+          writing-mode: vertical-lr;
+          letter-spacing: 0;
+      }
+
+      .star-item .sb {
+          font-size: 8px;
+          color: #888;
+          line-height: 1;
+          margin-top: 1px;
+      }
+
+      .star-item .sm {
+          font-size: 7px;
+          color: #fff;
+          background: #c0392b;
+          border-radius: 2px;
+          padding: 0 2px;
+          line-height: 1.3;
+          margin-top: 1px;
+      }
+
+      .major {
+          color: #c0392b;
+      }
+
+      .soft {
+          color: #27ae60;
+      }
+
+      .tough {
+          color: #e67e22;
+      }
+
+      .adj {
+          color: #7f8c8d;
+      }
+
+      .star-type-label {
+          font-size: 7px;
+          color: #999;
+          writing-mode: vertical-lr;
+          letter-spacing: 1px;
+          margin-right: 1px;
+      }
 
       /* ---------- 流耀区（右侧，竖排） ---------- */
       .transit-area {
@@ -101,12 +236,34 @@
           gap: 2px;
           z-index: 1;
       }
-      .ts-item { font-size: 8px; font-weight: 600; writing-mode: vertical-lr; letter-spacing: 0; line-height: 1.1; }
-      .ts-decadal { color: #c55a11; }
-      .ts-yearly  { color: #2e75b6; }
-      .ts-monthly { color: #548235; }
-      .ts-daily   { color: #bf8f00; }
-      .ts-hourly  { color: #843c0c; }
+
+      .ts-item {
+          font-size: 8px;
+          font-weight: 600;
+          writing-mode: vertical-lr;
+          letter-spacing: 0;
+          line-height: 1.1;
+      }
+
+      .ts-decadal {
+          color: #c55a11;
+      }
+
+      .ts-yearly {
+          color: #2e75b6;
+      }
+
+      .ts-monthly {
+          color: #548235;
+      }
+
+      .ts-daily {
+          color: #bf8f00;
+      }
+
+      .ts-hourly {
+          color: #843c0c;
+      }
 
       /* ---------- 大限区（第3行，居中） ---------- */
       .decadal-area {
@@ -131,6 +288,7 @@
           padding: 1px;
           overflow: hidden;
       }
+
       .name-area {
           grid-column: 2;
           align-self: end;
@@ -142,6 +300,7 @@
           color: #c0392b;
           padding-bottom: 1px;
       }
+
       .body-mark {
           position: absolute;
           right: 2px;
@@ -158,6 +317,7 @@
           line-height: 1.2;
           padding: 2px 1px;
       }
+
       .stem-area {
           grid-column: 3;
           align-self: end;
@@ -170,22 +330,84 @@
           margin: 0 0 0 0;
           gap: 0;
       }
-      .stem-area .cs12 { font-size: 8px; color: #888; line-height: 1; }
-      .stem-area .sb-text { font-size: 11px; color: #555; letter-spacing: 1px; line-height: 1; }
 
-      table { width: 100%; border-collapse: collapse; font-size: 13px; }
-      td, th { padding: 5px 8px; border: 1px solid #eee; text-align: left; }
-      th { background: #f0f0f0; font-weight: 600; }
+      .stem-area .cs12 {
+          font-size: 8px;
+          color: #888;
+          line-height: 1;
+      }
+
+      .stem-area .sb-text {
+          font-size: 11px;
+          color: #555;
+          letter-spacing: 1px;
+          line-height: 1;
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 13px;
+      }
+
+      td, th {
+          padding: 5px 8px;
+          border: 1px solid #eee;
+          text-align: left;
+      }
+
+      th {
+          background: #f0f0f0;
+          font-weight: 600;
+      }
 
       /* ===== 运限日历控件 ===== */
-      .horo-module { margin-bottom: 6px; }
-      .hm-header { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
-      .hm-title { font-size: 12px; font-weight: 700; color: #555; min-width: 32px; }
-      .hm-arrow { font-size: 16px; color: #999; cursor: pointer; user-select: none; padding: 0 4px; }
-      .hm-arrow:hover { color: #333; }
-      .hm-scroll { display: flex; gap: 3px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: thin; }
-      .hm-scroll::-webkit-scrollbar { height: 3px; }
-      .hm-scroll::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+      .horo-module {
+          margin-bottom: 6px;
+      }
+
+      .hm-header {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          margin-bottom: 3px;
+      }
+
+      .hm-title {
+          font-size: 12px;
+          font-weight: 700;
+          color: #555;
+          min-width: 32px;
+      }
+
+      .hm-arrow {
+          font-size: 16px;
+          color: #999;
+          cursor: pointer;
+          user-select: none;
+          padding: 0 4px;
+      }
+
+      .hm-arrow:hover {
+          color: #333;
+      }
+
+      .hm-scroll {
+          display: flex;
+          gap: 3px;
+          overflow-x: auto;
+          padding-bottom: 2px;
+          scrollbar-width: thin;
+      }
+
+      .hm-scroll::-webkit-scrollbar {
+          height: 3px;
+      }
+
+      .hm-scroll::-webkit-scrollbar-thumb {
+          background: #ccc;
+          border-radius: 2px;
+      }
 
       .hm-cell {
           flex-shrink: 0;
@@ -199,22 +421,81 @@
           min-width: 48px;
           transition: background 0.15s;
       }
-      .hm-cell:hover { background: #eee; }
-      .hm-cell.active { background: #c0392b; color: #fff; border-color: #c0392b; }
-      .hm-cell .hm-main { font-size: 12px; font-weight: 600; line-height: 1.4; }
-      .hm-cell .hm-sub  { font-size: 9px; color: #888; line-height: 1.2; }
-      .hm-cell.active .hm-sub { color: #fcc; }
 
-      #horoInfo { margin-bottom: 10px; }
-      .horo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-top: 8px; }
-      .horo-card { background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px; padding: 8px; font-size: 12px; }
-      .horo-card .horo-label { color: #888; font-size: 11px; }
-      .horo-card .horo-value { font-weight: 600; margin-top: 2px; }
-      .hc-decadal { border-left: 3px solid #c55a11; }
-      .hc-yearly  { border-left: 3px solid #2e75b6; }
-      .hc-monthly { border-left: 3px solid #548235; }
-      .hc-daily   { border-left: 3px solid #bf8f00; }
-      .hc-hourly  { border-left: 3px solid #843c0c; }
+      .hm-cell:hover {
+          background: #eee;
+      }
+
+      .hm-cell.active {
+          background: #c0392b;
+          color: #fff;
+          border-color: #c0392b;
+      }
+
+      .hm-cell .hm-main {
+          font-size: 12px;
+          font-weight: 600;
+          line-height: 1.4;
+      }
+
+      .hm-cell .hm-sub {
+          font-size: 9px;
+          color: #888;
+          line-height: 1.2;
+      }
+
+      .hm-cell.active .hm-sub {
+          color: #fcc;
+      }
+
+      #horoInfo {
+          margin-bottom: 10px;
+      }
+
+      .horo-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 8px;
+          margin-top: 8px;
+      }
+
+      .horo-card {
+          background: #f9f9f9;
+          border: 1px solid #e0e0e0;
+          border-radius: 6px;
+          padding: 8px;
+          font-size: 12px;
+      }
+
+      .horo-card .horo-label {
+          color: #888;
+          font-size: 11px;
+      }
+
+      .horo-card .horo-value {
+          font-weight: 600;
+          margin-top: 2px;
+      }
+
+      .hc-decadal {
+          border-left: 3px solid #c55a11;
+      }
+
+      .hc-yearly {
+          border-left: 3px solid #2e75b6;
+      }
+
+      .hc-monthly {
+          border-left: 3px solid #548235;
+      }
+
+      .hc-daily {
+          border-left: 3px solid #bf8f00;
+      }
+
+      .hc-hourly {
+          border-left: 3px solid #843c0c;
+      }
   </style>
 </head>
 <body>
@@ -242,8 +523,14 @@
           <option value="12">晚子时 23:00~00:00</option>
         </select>
       </div>
-      <div class="field"><label>性别</label><select id="gender"><option>男</option><option>女</option></select></div>
-      <div class="field"><label>流派</label><select id="algorithm"><option value="default">全书派</option><option value="zhongzhou">中州派</option></select></div>
+      <div class="field"><label>性别</label><select id="gender">
+        <option>男</option>
+        <option>女</option>
+      </select></div>
+      <div class="field"><label>流派</label><select id="algorithm">
+        <option value="default">全书派</option>
+        <option value="zhongzhou">中州派</option>
+      </select></div>
       <button id="btnCalc">排盘</button>
     </div>
     <div id="error"></div>
@@ -253,12 +540,14 @@
   <div class="panel" id="horoPanel" style="display:none;">
     <!-- 大限模块 -->
     <div class="horo-module" id="mod-decadal">
-      <div class="hm-header"><span class="hm-title">大限</span><span class="hm-arrow" id="decPrev">‹</span><span class="hm-arrow" id="decNext">›</span></div>
+      <div class="hm-header"><span class="hm-title">大限</span><span class="hm-arrow" id="decPrev">‹</span><span
+        class="hm-arrow" id="decNext">›</span></div>
       <div class="hm-scroll" id="decScroll"></div>
     </div>
     <!-- 流年模块 -->
     <div class="horo-module" id="mod-yearly">
-      <div class="hm-header"><span class="hm-title">流年</span><span class="hm-arrow" id="yrPrev">‹</span><span class="hm-arrow" id="yrNext">›</span></div>
+      <div class="hm-header"><span class="hm-title">流年</span><span class="hm-arrow" id="yrPrev">‹</span><span
+        class="hm-arrow" id="yrNext">›</span></div>
       <div class="hm-scroll" id="yrScroll"></div>
     </div>
     <!-- 流月模块 -->
@@ -283,7 +572,9 @@
   <div id="result" style="display:none;">
     <div class="panel">
       <h2 style="font-size:16px;margin-bottom:8px;">基本信息</h2>
-      <table><tbody id="basicInfo"></tbody></table>
+      <table>
+        <tbody id="basicInfo"></tbody>
+      </table>
     </div>
 
     <!-- 4x4 星盘 -->
@@ -306,10 +597,16 @@
     let currentHoroscope = null;
     let activeScopes = new Set(['decadal', 'yearly', 'monthly', 'daily', 'hourly']);
 
-    const SCOPE_COLORS = { decadal: '#c55a11', yearly: '#2e75b6', monthly: '#548235', daily: '#bf8f00', hourly: '#843c0c' };
-    const MONTH_NAMES = ['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
-    const HOUR_NAMES = ['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'];
-    const HOUR_INDEX_MAP = [0,1,2,3,4,5,6,7,8,9,10,11]; // 0=子时...11=亥时
+    const SCOPE_COLORS = {
+      decadal: '#c55a11',
+      yearly: '#2e75b6',
+      monthly: '#548235',
+      daily: '#bf8f00',
+      hourly: '#843c0c',
+    };
+    const MONTH_NAMES = ['正月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+    const HOUR_NAMES = ['子时', '丑时', '寅时', '卯时', '辰时', '巳时', '午时', '未时', '申时', '酉时', '戌时', '亥时'];
+    const HOUR_INDEX_MAP = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]; // 0=子时...11=亥时
 
     // 当前选中的运限值
     let selDec = 0, selYr = 0, selMon = 0, selDay = 0, selHr = 0;
@@ -335,8 +632,13 @@
         document.getElementById('horoPanel').style.display = 'block';
         document.getElementById('result').style.display = 'block';
         renderBasic();
-        selDec = 0; selYr = 0; selMon = 0; selDay = 0; selHr = 0;
-        decOffset = 0; yrOffset = 0;
+        selDec = 0;
+        selYr = 0;
+        selMon = 0;
+        selDay = 0;
+        selHr = 0;
+        decOffset = 0;
+        yrOffset = 0;
         calcHoroscope();
         setTimeout(() => {
           const soul = currentAstrolabe.palace('命宫');
@@ -349,12 +651,21 @@
 
     // ===== 计算运限数据并更新 UI =====
     function calcHoroscope() {
-      if (!currentAstrolabe) { console.warn('calcHoroscope: no astrolabe'); return; }
+      if (!currentAstrolabe) {
+        console.warn('calcHoroscope: no astrolabe');
+        return;
+      }
       const allDecs = getAllDecadals();
-      if (allDecs.length === 0) { console.warn('calcHoroscope: no decadals'); return; }
+      if (allDecs.length === 0) {
+        console.warn('calcHoroscope: no decadals');
+        return;
+      }
       const selDecIdx = Math.min(selDec, allDecs.length - 1);
       const dec = allDecs[selDecIdx];
-      if (!dec) { console.warn('calcHoroscope: no dec at', selDecIdx); return; }
+      if (!dec) {
+        console.warn('calcHoroscope: no dec at', selDecIdx);
+        return;
+      }
       const birthYear = parseInt(currentAstrolabe.solarDate.split('-')[0]);
       const targetAge = dec.range[0] + selYr;
       const targetYear = birthYear + targetAge - 1;
@@ -370,7 +681,7 @@
           `📅 ${dateStr} · 大限: ${dec.range[0]}-${dec.range[1]}岁 · 流年: ${targetYear}年 · 虚岁: ${targetAge}`;
         renderCalendar();
         render();
-      } catch(e) {
+      } catch (e) {
         document.getElementById('horoStatus').textContent = '❌ ' + e.message;
       }
     }
@@ -378,7 +689,9 @@
     function getAllDecadals() {
       if (!currentAstrolabe) return [];
       const list = [];
-      currentAstrolabe.palaces.forEach(p => { if (p.decadal) list.push(p.decadal); });
+      currentAstrolabe.palaces.forEach(p => {
+        if (p.decadal) list.push(p.decadal);
+      });
       list.sort((a, b) => a.range[0] - b.range[0]);
       return list;
     }
@@ -429,7 +742,7 @@
       for (let i = 0; i < dayCount; i++) {
         const active = i === selDay ? 'active' : '';
         dayCells.push(`<div class="hm-cell ${active}" data-day="${i}">
-      <div class="hm-main">${i+1}</div>
+      <div class="hm-main">${i + 1}</div>
     </div>`);
       }
       document.getElementById('dayScroll').innerHTML = dayCells.join('');
@@ -456,13 +769,19 @@
     document.addEventListener('click', e => {
       let cell;
       if (cell = e.target.closest('[data-dec]')) {
-        selDec = parseInt(cell.dataset.dec); selYr = 0; selMon = 0; selDay = 0;
+        selDec = parseInt(cell.dataset.dec);
+        selYr = 0;
+        selMon = 0;
+        selDay = 0;
         calcHoroscope();
       } else if (cell = e.target.closest('[data-yr]')) {
-        selYr = parseInt(cell.dataset.yr); selMon = 0; selDay = 0;
+        selYr = parseInt(cell.dataset.yr);
+        selMon = 0;
+        selDay = 0;
         calcHoroscope();
       } else if (cell = e.target.closest('[data-mon]')) {
-        selMon = parseInt(cell.dataset.mon); selDay = 0;
+        selMon = parseInt(cell.dataset.mon);
+        selDay = 0;
         calcHoroscope();
       } else if (cell = e.target.closest('[data-day]')) {
         selDay = parseInt(cell.dataset.day);
@@ -488,7 +807,7 @@
         ['时辰', a.time], ['生肖', a.zodiac], ['星座', a.sign],
         ['命宫', a.earthlyBranchOfSoulPalace], ['身宫', a.earthlyBranchOfBodyPalace],
         ['命主', a.soul], ['身主', a.body], ['五行局', a.fiveElementsClass],
-      ].map(([k,v]) => `<tr><td style="width:80px;font-weight:600;">${k}</td><td>${v}</td></tr>`).join('');
+      ].map(([k, v]) => `<tr><td style="width:80px;font-weight:600;">${k}</td><td>${v}</td></tr>`).join('');
     }
 
     // ===== 渲染星盘 =====
@@ -496,31 +815,48 @@
       if (!currentAstrolabe) return;
       const palaces = currentAstrolabe.palaces;
       const grid = document.getElementById('palacesGrid');
-      const layout = [[3,0],[2,0],[1,0],[0,0],[0,1],[0,2],[0,3],[1,3],[2,3],[3,3],[3,2],[3,1]];
-      const center = new Set(['1,1','1,2','2,1','2,2']);
+      const layout = [[3, 0], [2, 0], [1, 0], [0, 0], [0, 1], [0, 2], [0, 3], [1, 3], [2, 3], [3, 3], [3, 2], [3, 1]];
+      const center = new Set(['1,1', '1,2', '2,1', '2,2']);
       const gridMap = {};
-      layout.forEach(([r, c], i) => { gridMap[r+','+c] = i; });
+      layout.forEach(([r, c], i) => {
+        gridMap[r + ',' + c] = i;
+      });
 
-      const typeOrder = ['major','soft','lucun','tianma','tough','adjective','flower','helper'];
-      const typeColors = { major:'#c0392b', soft:'#27ae60', lucun:'#27ae60', tianma:'#27ae60', tough:'#e67e22', adjective:'#7f8c8d', flower:'#7f8c8d', helper:'#7f8c8d' };
-      const scopeOrder = ['decadal','yearly','monthly','daily','hourly'];
+      const typeOrder = ['major', 'soft', 'lucun', 'tianma', 'tough', 'adjective', 'flower', 'helper'];
+      const typeColors = {
+        major: '#c0392b',
+        soft: '#27ae60',
+        lucun: '#27ae60',
+        tianma: '#27ae60',
+        tough: '#e67e22',
+        adjective: '#7f8c8d',
+        flower: '#7f8c8d',
+        helper: '#7f8c8d',
+      };
+      const scopeOrder = ['decadal', 'yearly', 'monthly', 'daily', 'hourly'];
 
       let html = '';
       for (let r = 0; r < 4; r++) {
         for (let c = 0; c < 4; c++) {
-          const key = r+','+c;
-          if (center.has(key)) { html += '<div class="palace-card empty"></div>'; continue; }
+          const key = r + ',' + c;
+          if (center.has(key)) {
+            html += '<div class="palace-card empty"></div>';
+            continue;
+          }
           const pi = gridMap[key];
           const p = palaces[pi];
-          if (!p) { html += '<div class="palace-card empty"></div>'; continue; }
+          if (!p) {
+            html += '<div class="palace-card empty"></div>';
+            continue;
+          }
 
           // 星曜
-          const allStars = [...(p.majorStars||[]), ...(p.minorStars||[]), ...(p.adjectiveStars||[])];
+          const allStars = [...(p.majorStars || []), ...(p.minorStars || []), ...(p.adjectiveStars || [])];
           const sorted = [];
           typeOrder.forEach(t => allStars.filter(s => s.type === t).forEach(s => sorted.push(s)));
           let starsHtml = '';
           sorted.forEach(s => {
-            const tc = typeColors[s.type]||'#888';
+            const tc = typeColors[s.type] || '#888';
             starsHtml += `<div class="star-item">
           <div class="sn" style="color:${tc};">${s.name}</div>
           ${s.brightness ? `<div class="sb">${s.brightness}</div>` : ''}
@@ -540,7 +876,7 @@
               item.stars[pi].forEach(s => items.push({ scope, name: s.name }));
             }
             transitHtml = items.map(({ scope, name }) =>
-              `<span class="ts-item ts-${scope}">${name}</span>`
+              `<span class="ts-item ts-${scope}">${name}</span>`,
             ).join('');
           }
 
@@ -575,26 +911,35 @@
     }
 
     // ===== 三方四正 =====
-    const SFZZ_LAYOUT = [[3,0],[2,0],[1,0],[0,0],[0,1],[0,2],[0,3],[1,3],[2,3],[3,3],[3,2],[3,1]];
-    function getSfzzIndices(pi) { return [pi, (pi+6)%12, (pi+4)%12, (pi+8)%12]; }
+    const SFZZ_LAYOUT = [[3, 0], [2, 0], [1, 0], [0, 0], [0, 1], [0, 2], [0, 3], [1, 3], [2, 3], [3, 3], [3, 2], [3, 1]];
+
+    function getSfzzIndices(pi) {
+      return [pi, (pi + 6) % 12, (pi + 4) % 12, (pi + 8) % 12];
+    }
+
     function getConnectionPoint(pi) {
       const grid = document.getElementById('palacesGrid');
       const rect = grid.getBoundingClientRect();
       const [r, c] = SFZZ_LAYOUT[pi];
       const w = rect.width / 4, h = rect.height / 4;
-      if (r===0 && c===0) return {x:(c+1)*w, y:(r+1)*h};
-      if (r===0 && c===3) return {x:c*w, y:(r+1)*h};
-      if (r===3 && c===3) return {x:c*w, y:r*h};
-      if (r===3 && c===0) return {x:(c+1)*w, y:r*h};
-      if (r===0) return {x:(c+0.5)*w, y:(r+1)*h};
-      if (c===3) return {x:c*w, y:(r+0.5)*h};
-      if (r===3) return {x:(c+0.5)*w, y:r*h};
-      if (c===0) return {x:(c+1)*w, y:(r+0.5)*h};
-      return {x:(c+0.5)*w, y:(r+0.5)*h};
+      if (r === 0 && c === 0) return { x: (c + 1) * w, y: (r + 1) * h };
+      if (r === 0 && c === 3) return { x: c * w, y: (r + 1) * h };
+      if (r === 3 && c === 3) return { x: c * w, y: r * h };
+      if (r === 3 && c === 0) return { x: (c + 1) * w, y: r * h };
+      if (r === 0) return { x: (c + 0.5) * w, y: (r + 1) * h };
+      if (c === 3) return { x: c * w, y: (r + 0.5) * h };
+      if (r === 3) return { x: (c + 0.5) * w, y: r * h };
+      if (c === 0) return { x: (c + 1) * w, y: (r + 0.5) * h };
+      return { x: (c + 0.5) * w, y: (r + 0.5) * h };
     }
 
     let _lastSfzzPi = null;
-    function clearSfzz() { _lastSfzzPi = null; const s = document.getElementById('sfzz-svg'); if(s) s.innerHTML = ''; }
+
+    function clearSfzz() {
+      _lastSfzzPi = null;
+      const s = document.getElementById('sfzz-svg');
+      if (s) s.innerHTML = '';
+    }
 
     function drawSfzzLines(pi) {
       _lastSfzzPi = pi;
@@ -604,12 +949,16 @@
       svg.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
       const pts = getSfzzIndices(pi).map(i => getConnectionPoint(i));
       svg.innerHTML = '';
-      [[0,2],[2,3],[0,3],[0,1]].forEach(([f,t]) => {
+      [[0, 2], [2, 3], [0, 3], [0, 1]].forEach(([f, t]) => {
         const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        l.setAttribute('x1', pts[f].x); l.setAttribute('y1', pts[f].y);
-        l.setAttribute('x2', pts[t].x); l.setAttribute('y2', pts[t].y);
-        l.setAttribute('stroke','#e67e22'); l.setAttribute('stroke-width','2');
-        l.setAttribute('stroke-dasharray','5,3'); l.setAttribute('stroke-opacity','0.7');
+        l.setAttribute('x1', pts[f].x);
+        l.setAttribute('y1', pts[f].y);
+        l.setAttribute('x2', pts[t].x);
+        l.setAttribute('y2', pts[t].y);
+        l.setAttribute('stroke', '#e67e22');
+        l.setAttribute('stroke-width', '2');
+        l.setAttribute('stroke-dasharray', '5,3');
+        l.setAttribute('stroke-opacity', '0.7');
         svg.appendChild(l);
       });
     }
@@ -620,11 +969,16 @@
       clearSfzz();
       drawSfzzLines(parseInt(card.dataset.pi));
     });
-    document.addEventListener('click', e => { if (!e.target.closest('.astro-grid')) clearSfzz(); });
-    window.addEventListener('resize', () => { if (_lastSfzzPi !== null) drawSfzzLines(_lastSfzzPi); });
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.astro-grid')) clearSfzz();
+    });
+    window.addEventListener('resize', () => {
+      if (_lastSfzzPi !== null) drawSfzzLines(_lastSfzzPi);
+    });
 
     // 自动排盘
     doCalc();
   </script>
+</div>
 </body>
 </html>
